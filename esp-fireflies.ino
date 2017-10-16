@@ -54,7 +54,7 @@ class Firefly {
   }
 };
 
-
+// Initialize LED objects
 Firefly led1(13, 200, 600, 3000, 30000);
 Firefly led2(12, 150, 700, 2500, 18000);
 Firefly led3(11, 370, 800, 2000, 30000);
@@ -63,6 +63,7 @@ Firefly led5(9, 200, 870, 3000, 12500);
 Firefly led6(8, 250, 900, 5000, 20000);
 Firefly led7(7, 150, 860, 2600, 50000);
 
+// Initialize global variables
 const int buttonPin = 2;      // activation pushbutton before piezo sensor testing
 int lastButtonState = HIGH;   // initial pushbutton state
 int timerMax = 1000000;
