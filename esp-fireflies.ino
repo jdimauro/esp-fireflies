@@ -55,43 +55,40 @@ class Firefly {
 };
 
 // Initialize LED objects
-Firefly led1(13, 200, 600, 3000, 30000);
-Firefly led2(12, 150, 700, 2500, 18000);
-Firefly led3(11, 370, 800, 2000, 30000);
-Firefly led4(10, 100, 670, 3000, 8700);
-Firefly led5(9, 200, 870, 3000, 12500);
-Firefly led6(8, 250, 900, 5000, 20000);
-Firefly led7(7, 150, 860, 2600, 50000);
+Firefly led1(5, 200, 600, 3000, 30000);     // d1 
+Firefly led2(4, 150, 700, 2500, 18000);     // d2
+Firefly led3(0, 370, 800, 2000, 30000);     // d3
+Firefly led4(2, 100, 670, 3000, 8700);      // d4
+Firefly led5(14, 200, 870, 3000, 12500);    // d5 
+Firefly led6(12, 250, 900, 5000, 20000);    // d6
+Firefly led7(13, 150, 860, 2600, 50000);    // d7
+
+
+const int timerMax = 1000000;
+const int knockThreshold = 15;
 
 // Initialize global variables
-const int buttonPin = 2;      // activation pushbutton before piezo sensor testing
-int lastButtonState = HIGH;   // initial pushbutton state
-int timerMax = 1000000;
+
 int animateTimer = timerMax;
 
 
 void setup() {
-  pinMode(buttonPin, INPUT_PULLUP);
-  randomSeed(analogRead(0));
+
 }
 
 void loop() {
   // TODO: change this to using piezo knock sensor on an analogRead(); function
-  int buttonState = digitalRead(buttonPin); 
-  if (buttonState != lastButtonState) {
-    delay(3);                               // debounce delay
-    if (buttonState == LOW) {
-      // activate the LEDs for 30 seconds
-      // led1.ResetTimer();                 // commented out so that I get feedback on a button event
-      led2.ResetTimer();
-      led3.ResetTimer();
-      // led4.ResetTimer();
-      led5.ResetTimer();
-      led6.ResetTimer();
-      led7.ResetTimer();
-      animateTimer = 0;
-    }
-    lastButtonState = buttonState;          // save button state
+  int knockState = analogRead(A0); 
+  if (knockState >= knockThreshold) {
+    // activate the LEDs for 30 seconds
+    // led1.ResetTimer();                 // commented out so that I get feedback on a button event
+    led2.ResetTimer();
+    led3.ResetTimer();
+    // led4.ResetTimer();
+    led5.ResetTimer();
+    led6.ResetTimer();
+    led7.ResetTimer();
+    animateTimer = 0;
   }
 
   // TODO: change this to using millis(); to get a precise control over timing
