@@ -104,13 +104,13 @@ void loop() {
   }
   // If an LED was left on at the end of the animateTimer loop, turn it off
   if (animateTimer >= timerMax) {
-    digitalWrite(13, LOW);
+    digitalWrite(5, LOW);
+    digitalWrite(4, LOW);
+    digitalWrite(0, LOW);
+    digitalWrite(2, LOW);
+    digitalWrite(14, LOW);
     digitalWrite(12, LOW);
-    digitalWrite(11, LOW);
-    digitalWrite(10, LOW);
-    digitalWrite(9, LOW);
-    digitalWrite(8, LOW);
-    digitalWrite(7, LOW);
+    digitalWrite(13, LOW);
   }
 }
 
