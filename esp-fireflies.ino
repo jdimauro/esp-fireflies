@@ -63,6 +63,7 @@ Firefly led5(14, 200, 870, 3000, 12500);    // d5
 Firefly led6(12, 250, 900, 5000, 20000);    // d6
 Firefly led7(13, 150, 860, 2600, 50000);    // d7
 
+// Initialize global constants
 
 const int timerMax = 1000000;
 const int knockThreshold = 15;
@@ -80,7 +81,7 @@ void loop() {
   // TODO: change this to using piezo knock sensor on an analogRead(); function
   int knockState = analogRead(A0); 
   if (knockState >= knockThreshold) {
-    // activate the LEDs for 30 seconds
+    // Blank out some of the LEDs
     // led1.ResetTimer();                 // commented out so that I get feedback on a button event
     led2.ResetTimer();
     led3.ResetTimer();
@@ -88,8 +89,14 @@ void loop() {
     led5.ResetTimer();
     led6.ResetTimer();
     led7.ResetTimer();
+
+    // TODO: Send out a broadcast UDP ping that says "knock"
+    
+    // activate the LEDs
     animateTimer = 0;
   }
+
+  // TODO: Check for UDP packets and animate LEDs if we received a packet which says "knock"
 
   // TODO: change this to using millis(); to get a precise control over timing
   while(animateTimer <= timerMax) {
