@@ -66,7 +66,7 @@ Firefly led7(13, 150, 860, 2600, 50000);    // d7
 // Initialize global constants
 
 const int timerMax = 1000000;
-const int knockThreshold = 15;
+const int knockThreshold = 100;
 
 // Initialize global variables
 
@@ -82,6 +82,7 @@ void loop() {
   // TODO: change this to using piezo knock sensor on an analogRead(); function
   int knockState = analogRead(A0); 
   if (knockState >= knockThreshold) {
+    delay(30);
     // Blank out some of the LEDs
     // led1.ResetTimer();                 // commented out so that I get feedback on a button event
     led2.ResetTimer();
