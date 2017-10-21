@@ -101,7 +101,7 @@ void loop() {
   // TODO: Check for UDP packets and animate LEDs if we received a packet which says "knock"
 
   // TODO: change this to using millis(); to get a precise control over timing
-  while(animateTimer <= timerMax) {
+  if (animateTimer <= timerMax) {
     led1.Update();
     led2.Update();
     led3.Update();
@@ -113,7 +113,6 @@ void loop() {
   }
   // If an LED was left on at the end of the animateTimer loop, turn it off
   if (animateTimer >= timerMax) {
-    //Serial.println("Switch off");
     digitalWrite(5, LOW);
     digitalWrite(4, LOW);
     digitalWrite(0, LOW);
