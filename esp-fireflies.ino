@@ -1,3 +1,16 @@
+/*
+ * UDP Fireflies
+ */
+
+#include <SPI.h>
+//#include <WiFi101.h>
+#include <ESP8266WiFi.h>
+#include <WiFiUdp.h>
+#include "config.h"
+
+WiFiUDP Udp;                // instance of UDP library
+IPAddress destination(10, 0, 1, 255); // UDP destination address for your network
+
 class Firefly {
   // Class Member Variables
   int ledPin;
@@ -64,43 +77,67 @@ Firefly led6(12, 250, 900, 5000, 20000);    // d6
 Firefly led7(13, 150, 860, 2600, 50000);    // d7
 
 // Initialize global constants
-
 const int timerMax = 1000000;
 const int knockThreshold = 100;
+const int port = 8888;      // port on which this client sends
+
 
 // Initialize global variables
-
 int animateTimer = timerMax;
-
 
 void setup() {
   Serial.begin(115200);       // use the serial port
-
+  delay(10);
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  
+  WiFi.begin(ssid, pass);
+  
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  // When you're connected, print out the device's network status:
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP Address: ");
+  Serial.println(ip);
+  Udp.begin(port);
 }
 
 void loop() {
-  // TODO: change this to using piezo knock sensor on an analogRead(); function
-  int knockState = analogRead(A0); 
-  if (knockState >= knockThreshold) {
-    delay(30);
-    // Blank out some of the LEDs
-    // led1.ResetTimer();                 // commented out so that I get feedback on a button event
-    led2.ResetTimer();
-    led3.ResetTimer();
-    // led4.ResetTimer();
-    led5.ResetTimer();
-    led6.ResetTimer();
-    led7.ResetTimer();
 
-    // TODO: Send out a broadcast UDP ping that says "knock"
-    Serial.println("Knock!");
+  readAnalogSensor();
 
-    // activate the LEDs
-    animateTimer = 0;
+  // Check for UDP packets and animate LEDs if we received a packet which says "knock"
+  // if there's data available, read a packet
+  if (Udp.parsePacket() > 0) {        // parse incoming packet
+    String message = "";              
+    Serial.print("From: ");           // print the sender
+    Serial.print(Udp.remoteIP());
+    Serial.print(" on port: ");       // and the port they sent on
+    Serial.println(Udp.remotePort());
+    while (Udp.available() > 0) {     // parse the body of the message
+      message = Udp.readString();
+    }
+    Serial.println("msg: " + message);  // print it
+    if (message == "Flash") {              // if the message is "Flash"
+      // Blank out some of the LEDs
+      led1.ResetTimer();
+      // led2.ResetTimer();                 // commented out so that I get feedback on a button event
+      led3.ResetTimer();
+      led4.ResetTimer();
+      led5.ResetTimer();
+      // led6.ResetTimer();
+      led7.ResetTimer();
+      animateTimer = 0;                 // activate the LEDs
+    }
   }
 
-  // TODO: Check for UDP packets and animate LEDs if we received a packet which says "knock"
 
+
+  
   // TODO: change this to using millis(); to get a precise control over timing
   if (animateTimer <= timerMax) {
     led1.Update();
@@ -124,3 +161,31 @@ void loop() {
   }
 }
 
+void readAnalogSensor() {
+  if( millis() % 50 != 0 )
+    return;
+  int knockState = analogRead(A0); 
+  if (knockState >= knockThreshold) {
+    delay(30);
+    
+    // start a new packet:
+    Udp.beginPacket(destination, port);
+    Udp.print("Flash");                 // add payload to it
+    Udp.endPacket();                    // finish and send packet
+    Serial.print("Sent packet to ");
+    Serial.print(destination);
+    Serial.println(":" + port);
+    
+    // Blank out some of the LEDs
+    // led1.ResetTimer();                 // commented out so that I get feedback on a button event
+    led2.ResetTimer();
+    led3.ResetTimer();
+    // led4.ResetTimer();
+    led5.ResetTimer();
+    led6.ResetTimer();
+    led7.ResetTimer();
+
+    // activate the LEDs
+    animateTimer = 0;
+  }
+}
