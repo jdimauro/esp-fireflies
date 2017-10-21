@@ -66,20 +66,21 @@ class Firefly {
 
 Firefly led1(5, 200, 600, 3000, 30000);     // d1 
 Firefly led2(4, 150, 700, 2500, 18000);     // d2
-Firefly led3(0, 370, 800, 2000, 30000);     // d3
+Firefly led3(15, 370, 800, 2000, 30000);    // d8
 Firefly led4(2, 100, 670, 3000, 8700);      // d4
 Firefly led5(14, 200, 870, 3000, 12500);    // d5 
 Firefly led6(12, 250, 900, 5000, 20000);    // d6
 Firefly led7(13, 150, 860, 2600, 50000);    // d7
 
 // Initialize global variables
-const int buttonPin = 2;      // activation pushbutton before piezo sensor testing
+const int buttonPin = 0;      // activation pushbutton before piezo sensor testing
 int lastButtonState = HIGH;   // initial pushbutton state
-int timerMax = 1000000;
-int animateTimer = timerMax;
+long timerMax = 1000000;
+long animateTimer = timerMax;
 
 
 void setup() {
+  Serial.begin(115200);
   pinMode(buttonPin, INPUT_PULLUP);
   randomSeed(analogRead(0));
 }
@@ -98,13 +99,15 @@ void loop() {
       led5.ResetTimer();
       led6.ResetTimer();
       led7.ResetTimer();
+      
+      Serial.println("Flash");
       animateTimer = 0;
     }
     lastButtonState = buttonState;          // save button state
   }
 
   // TODO: change this to using millis(); to get a precise control over timing
-  while(animateTimer <= timerMax) {
+  if (animateTimer <= timerMax) {
     led1.Update();
     led2.Update();
     led3.Update();
@@ -116,13 +119,21 @@ void loop() {
   }
   // If an LED was left on at the end of the animateTimer loop, turn it off
   if (animateTimer >= timerMax) {
-    digitalWrite(13, LOW);
+//    digitalWrite(13, LOW);
+//    digitalWrite(12, LOW);
+//    digitalWrite(11, LOW);
+//    digitalWrite(10, LOW);
+//    digitalWrite(9, LOW);
+//    digitalWrite(8, LOW);
+//    digitalWrite(7, LOW);
+
+    digitalWrite(5, LOW);
+    digitalWrite(4, LOW);
+    digitalWrite(0, LOW);
+    digitalWrite(2, LOW);
+    digitalWrite(14, LOW);
     digitalWrite(12, LOW);
-    digitalWrite(11, LOW);
-    digitalWrite(10, LOW);
-    digitalWrite(9, LOW);
-    digitalWrite(8, LOW);
-    digitalWrite(7, LOW);
+    digitalWrite(13, LOW);
   }
 }
 
