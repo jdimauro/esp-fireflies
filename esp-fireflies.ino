@@ -10,6 +10,7 @@
 
 WiFiUDP Udp;                // instance of UDP library
 IPAddress destination(10, 0, 1, 255); // UDP destination address for your network
+const int port = 8888;      // port on which this client sends
 
 class Firefly {
   // Class Member Variables
@@ -79,7 +80,6 @@ Firefly led7(13, 150, 860, 2600, 50000);    // d7
 // Initialize global constants
 const int timerMax = 1000000;
 const int knockThreshold = 100;
-const int port = 8888;      // port on which this client sends
 
 
 // Initialize global variables
@@ -94,9 +94,14 @@ void setup() {
   WiFi.begin(ssid, pass);
   
   while (WiFi.status() != WL_CONNECTED) {
+    digitalWrite(5, HIGH);
     delay(500);
     Serial.print(".");
+    digitalWrite(5, LOW);
+    delay(500);
   }
+
+  digitalWrite(4, HIGH);
   Serial.println("");
   Serial.println("WiFi connected");
   // When you're connected, print out the device's network status:
@@ -104,6 +109,7 @@ void setup() {
   Serial.print("IP Address: ");
   Serial.println(ip);
   Udp.begin(port);
+  delay(5000);
 }
 
 void loop() {
