@@ -74,6 +74,7 @@ int animateTimer = timerMax;
 
 
 void setup() {
+  Serial.begin(115200);       // use the serial port
 
 }
 
@@ -91,7 +92,8 @@ void loop() {
     led7.ResetTimer();
 
     // TODO: Send out a broadcast UDP ping that says "knock"
-    
+    Serial.println("Knock!");
+
     // activate the LEDs
     animateTimer = 0;
   }
@@ -111,6 +113,7 @@ void loop() {
   }
   // If an LED was left on at the end of the animateTimer loop, turn it off
   if (animateTimer >= timerMax) {
+    //Serial.println("Switch off");
     digitalWrite(5, LOW);
     digitalWrite(4, LOW);
     digitalWrite(0, LOW);
