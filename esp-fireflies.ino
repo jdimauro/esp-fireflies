@@ -95,14 +95,14 @@ void setup() {
   WiFi.begin(ssid, pass);
   
   while (WiFi.status() != WL_CONNECTED) {
-    digitalWrite(5, HIGH);
+    digitalWrite(5, HIGH);      // Flash the LED while connecting
     delay(500);
     Serial.print(".");
     digitalWrite(5, LOW);
     delay(500);
   }
 
-  digitalWrite(4, HIGH);
+  digitalWrite(4, HIGH);        // Turn another LED on high for 5 seconds when connected
   Serial.println("");
   Serial.println("WiFi connected");
   // When you're connected, print out the device's network status:
@@ -116,9 +116,9 @@ void setup() {
 
 void loop() {
 
-  readAnalogSensor();
+  readAnalogSensor();                 // Read analog sensor every 50 ms and trigger lights if above threshold
 
-  // Check for UDP packets and animate LEDs if we received a packet which says "knock"
+  // Check for UDP packets and animate LEDs if we received a packet which says "Flash"
   // if there's data available, read a packet
   if (Udp.parsePacket() > 0) {        // parse incoming packet
     String message = "";              
