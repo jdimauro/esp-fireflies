@@ -180,7 +180,7 @@ void readAnalogSensor() {
     Udp.endPacket();                    // finish and send packet
     Serial.print("Sent packet to ");
     Serial.print(destination);
-    Serial.println(":" + port);
+    Serial.println(":" + String(port));
     
     // Blank out some of the LEDs
     // led1.ResetTimer();                 // commented out so that I get feedback on a button event
