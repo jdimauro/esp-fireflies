@@ -145,9 +145,6 @@ void loop() {
     }
   }
 
-
-
-  
   // TODO: change this to using millis(); to get a precise control over timing
   if (animateTimer <= timerMax) {
     led1.Update();
