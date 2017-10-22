@@ -72,13 +72,13 @@ class Firefly {
 
 // Initialize LED objects
 
-Firefly led1(5, 200, 600, 3000, 30000);     // d1 
-Firefly led2(4, 150, 700, 2500, 18000);     // d2
-Firefly led3(0, 370, 800, 2000, 30000);     // d3
-Firefly led4(2, 100, 670, 3000, 8700);      // d4
+Firefly led1(5, 400, 1200, 3000, 30000);     // d1 
+Firefly led2(4, 150, 400, 2500, 18000);     // d2
+Firefly led3(0, 500, 1500, 2000, 20000);     // d3
+Firefly led4(2, 75, 300, 1500, 8700);      // d4
 Firefly led5(14, 200, 870, 3000, 12500);    // d5 
-Firefly led6(12, 250, 900, 5000, 20000);    // d6
-Firefly led7(13, 150, 860, 2600, 50000);    // d7
+Firefly led6(12, 350, 500, 5000, 20000);    // d6
+Firefly led7(13, 50, 300, 8000, 40000);    // d7
 
 // Initialize global constants
 const int timerMax = 1500000;
@@ -171,11 +171,11 @@ void loop() {
 }
 
 void readAnalogSensor() {
-  if( millis() % 50 != 0 )
+  if( millis() % 50 != 0 )            // If you poll the analogRead function at every loop it knocks the arduino off wifi; this calls analogRead only every 50 ms
     return;
   int knockState = analogRead(A0); 
   if (knockState >= knockThreshold) {
-    delay(30);
+    delay(30);                        // debounce delay
     
     // start a new packet:
     Udp.beginPacket(destination, port);
@@ -183,10 +183,10 @@ void readAnalogSensor() {
     Udp.endPacket();                    // finish and send packet
     Serial.print("Sent packet to ");
     Serial.print(destination);
-    Serial.println(":" + String(port));
+    Serial.println(" on port: " + String(port));
     
     // Blank out some of the LEDs
-    // led1.ResetTimer();                 // commented out so that I get feedback on a button event
+    // led1.ResetTimer();                 // commented out so that I get feedback on a knock event
     led2.ResetTimer();
     led3.ResetTimer();
     // led4.ResetTimer();
