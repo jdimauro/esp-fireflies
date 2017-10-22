@@ -1,5 +1,7 @@
 /*
  * UDP Fireflies
+ * 
+ * Based on example code by Tom Igoe
  */
 
 #include <SPI.h>
