@@ -69,16 +69,16 @@ class Firefly {
 };
 
 // Initialize LED objects
-Firefly led1(5, 200, 600, 3000, 30000);     // d1 
-Firefly led2(4, 150, 700, 2500, 18000);     // d2
-Firefly led3(0, 370, 800, 2000, 30000);     // d3
-Firefly led4(2, 100, 670, 3000, 8700);      // d4
+Firefly led1(5, 400, 600, 3000, 30000);     // d1 
+Firefly led2(4, 150, 400, 2500, 18000);     // d2
+Firefly led3(0, 370, 2000, 2000, 30000);    // d3
+Firefly led4(2, 70, 400, 3000, 8700);       // d4
 Firefly led5(14, 200, 870, 3000, 12500);    // d5 
-Firefly led6(12, 250, 900, 5000, 20000);    // d6
-Firefly led7(13, 150, 860, 2600, 50000);    // d7
+Firefly led6(12, 250, 1500, 5000, 20000);   // d6
+Firefly led7(13, 50, 450, 2600, 50000);     // d7
 
 // Initialize global constants
-const int timerMax = 1000000;
+const int timerMax = 1500000;
 const int knockThreshold = 100;
 
 
