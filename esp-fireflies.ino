@@ -79,7 +79,7 @@ Firefly led7(13, 50, 450, 2600, 50000);     // d7
 
 // Initialize global constants
 const int timerMax = 1500000;
-const int knockThreshold = 100;
+const int knockThreshold = 75;
 
 
 // Initialize global variables
