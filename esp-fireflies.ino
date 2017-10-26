@@ -8,7 +8,7 @@
 //#include <WiFi101.h>
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
-#include "config.h"
+#include "config.h"         // Create a config.h file with chars ssid[] and pass[] for your wifi network
 
 WiFiUDP Udp;                // instance of UDP library
 IPAddress destination(10, 0, 1, 255); // UDP destination address for your network
@@ -72,20 +72,20 @@ class Firefly {
 
 // Initialize LED objects
 
-Firefly led1(5, 400, 1200, 3000, 30000);     // d1 
-Firefly led2(4, 150, 400, 2500, 18000);     // d2
-Firefly led3(0, 500, 1500, 2000, 20000);     // d3
-Firefly led4(2, 75, 300, 1500, 8700);      // d4
-Firefly led5(14, 200, 870, 3000, 12500);    // d5 
-Firefly led6(12, 350, 500, 5000, 20000);    // d6
-Firefly led7(13, 50, 300, 8000, 40000);    // d7
+Firefly led1(5, 400, 1200, 3000, 30000);     // d1 Long, infrequent flashes
+Firefly led2(4, 150, 400, 2500, 18000);      // d2 Medium flashes, medium frequency
+Firefly led3(0, 500, 1500, 2000, 25000);     // d3 Long, infrequent flashes
+Firefly led4(2, 75, 300, 1500, 8700);        // d4 Short, frequent flashes
+Firefly led5(14, 200, 870, 3000, 12500);     // d5 Medium flashes, medium frequency
+Firefly led6(12, 350, 500, 5000, 20000);     // d6 Medium flashes, medium frequency
+Firefly led7(13, 50, 300, 8000, 40000);      // d7 Short, infrequent flashes
 
 // Initialize global constants
 const int timerMax = 1500000;
-const int knockThreshold = 75;
+const int knockThreshold = 75;               // Takes a hard tap on the lid to activate
 
 // Initialize global variables
-int animateTimer = timerMax;
+int animateTimer = timerMax;                 // Set this to 0 if you want the lights to animate on boot
 
 void setup() {
 
